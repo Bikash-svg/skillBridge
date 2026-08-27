@@ -15,4 +15,4 @@
 // Also make sure the backend's ALLOWED_ORIGINS env var includes this
 // frontend's origin so the browser's CORS check passes — see .env.example.
 // ---------------------------------------------------------------------
-window.SKILLPULSE_API_BASE = "";
+window.SKILLPULSE_API_BASE = "https://skillbridge-pury.onrender.com";
