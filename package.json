@@ -1,0 +1,23 @@
+{
+  "name": "skillpulse",
+  "version": "1.0.0",
+  "description": "AI-powered skill assessment demo: assess -> recommend -> re-assess",
+  "main": "server/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "bun server/index.js",
+    "dev": "bun --watch server/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

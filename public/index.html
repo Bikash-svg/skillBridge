@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SkillPulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">SkillPulse</span>
+    </div>
+    <div class="topbar-actions">
+      <button id="btn-bell" class="btn-icon-circular" title="Continue previous session" aria-label="Continue previous session" aria-expanded="false">
+        🔔<span id="bell-dot" class="bell-dot" hidden></span>
+      </button>
+      <button id="btn-exit-home" class="btn-icon-circular" title="Exit to Home" aria-label="Exit to Home">⌂</button>
+    </div>
+  </div>
+</header>
+
+<nav id="flow-stepper" class="flow-stepper" hidden>
+  <div class="flow-step" data-step="topic"><span class="dot"></span>Topic</div>
+  <div class="flow-connector"></div>
+  <div class="flow-step" data-step="subtopics"><span class="dot"></span>Sub-topics</div>
+  <div class="flow-connector"></div>
+  <div class="flow-step" data-step="quiz"><span class="dot"></span>Quiz</div>
+  <div class="flow-connector"></div>
+  <div class="flow-step" data-step="results"><span class="dot"></span>Results</div>
+</nav>
+
+<main class="app">
+
+  <!-- Screen 0: Home -->
+  <section id="screen-home" class="screen active">
+    <h1 class="t-heading-2">Welcome to SkillPulse</h1>
+    <p class="subtitle">Assess your knowledge, get AI-recommended next steps, and watch your level improve.</p>
+
+    <div class="home-grid">
+      <!-- Topics side -->
+      <div class="home-topics-col">
+        <h2 class="t-heading-3" style="margin-bottom: 4px;">Pick a topic</h2>
+        <p class="t-body-sm muted" style="margin-bottom: 16px;">Choose a topic to generate a fresh quiz and see where you stand.</p>
+        <div id="home-topic-groups" class="topic-groups">
+          <p class="muted">Loading topics&hellip;</p>
+        </div>
+      </div>
+
+      <!-- Previous sessions side -->
+      <div id="sessions-panel-backdrop" class="sessions-panel-backdrop" hidden></div>
+      <aside id="sessions-panel" class="home-sessions-col">
+        <div class="sessions-panel-header">
+          <h2 class="t-heading-3">Continue previous session</h2>
+          <button id="btn-sessions-close" class="btn-icon-circular sessions-panel-close" title="Close" aria-label="Close">✕</button>
+        </div>
+
+        <div id="session-grid" class="session-grid"></div>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <p class="t-body-sm">You haven't started an assessment yet. Pick a topic to begin.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Screen 1: Topic Select -->
+  <section id="screen-topics" class="screen">
+    <h1 class="t-heading-2">What do you want to be assessed on?</h1>
+    <p class="subtitle">Pick a topic. SkillPulse will generate a fresh quiz to measure where you stand right now.</p>
+    <div id="topic-groups" class="topic-groups">
+      <p class="muted">Loading topics&hellip;</p>
+    </div>
+    <button id="btn-start" class="btn btn-primary" disabled>Continue</button>
+  </section>
+
+  <!-- Screen 1b: Sub-topic Self-Report -->
+  <section id="screen-subtopics" class="screen">
+    <h1 class="t-heading-2">Any of these sound familiar?</h1>
+    <p class="subtitle subtopic-instruction">Select any sub-topics you're already confident in — we'll ask harder questions on those to check. Totally optional.</p>
+    <div id="subtopic-chips" class="topic-chips" style="margin-bottom: 28px;">
+      <p class="muted">Loading sub-topics&hellip;</p>
+    </div>
+    <div class="btn-row">
+      <button id="btn-subtopics-continue" class="btn btn-primary">Continue</button>
+      <button id="btn-subtopics-skip" class="btn-utility">Skip</button>
+    </div>
+  </section>
+
+  <!-- Screen 2: Quiz -->
+  <section id="screen-quiz" class="screen">
+    <div class="quiz-header">
+      <h1 id="quiz-title" class="t-heading-2">Quiz</h1>
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-track"><div id="quiz-progress-fill" class="quiz-progress-fill" style="width:0%"></div></div>
+        <span id="quiz-progress-label" class="quiz-progress-label">0 of 0</span>
+      </div>
+    </div>
+    <div id="quiz-questions" class="quiz-questions"></div>
+    <button id="btn-submit-quiz" class="btn btn-primary" disabled>Submit Quiz</button>
+  </section>
+
+  <!-- Screen 3: Results -->
+  <section id="screen-results" class="screen">
+    <h1 class="t-heading-2">Your results</h1>
+    <div class="feature-card results-summary">
+      <div class="score-block">
+        <div id="result-score" class="score-number">0%</div>
+        <div id="result-level" class="level-badge">Beginner</div>
+      </div>
+      <div class="weak-block">
+        <h2 class="t-heading-3" style="margin-bottom:8px;">Areas to focus on</h2>
+        <ul id="weak-list" class="weak-list"></ul>
+      </div>
+    </div>
+
+    <h2 class="t-heading-3" style="margin: 24px 0 12px;">Recommended next steps</h2>
+    <div class="results-columns">
+      <div class="results-col">
+        <div class="t-eyebrow muted" style="margin-bottom:4px;">Read</div>
+        <div id="recommendation-list"></div>
+      </div>
+      <div class="results-col">
+        <div class="t-eyebrow muted" style="margin-bottom:4px;">Watch</div>
+        <div id="video-list"></div>
+      </div>
+    </div>
+
+    <div id="mastery-action-area" class="btn-row"></div>
+  </section>
+
+  <div id="error-banner" class="error-banner" hidden></div>
+
+</main>
+
+<!-- Exit confirm modal (§3) -->
+<div id="exit-confirm-modal" class="modal-backdrop" hidden>
+  <div class="modal-card">
+    <p class="t-body-md">Leaving now will discard this attempt. Continue to Home?</p>
+    <div class="btn-row" style="margin-top:0;">
+      <button id="btn-exit-confirm" class="btn btn-primary">Discard &amp; Go Home</button>
+      <button id="btn-exit-cancel" class="btn btn-secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="env.js"></script>
+<script src="storage.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
